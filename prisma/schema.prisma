@@ -11,35 +11,36 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(uuid())
+  id           String     @id @db.VarChar(255) @default(uuid())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   remoteUserId String     @db.VarChar(255)
-  albums       Album[]    @relation(name: "user")  
-  photos       Photo[]    @relation(name: "user")
+  albums       Album[]    @relation(name: "user_albums")  
+  photos       Photo[]    @relation(name: "user_photos")  
 }
 
 model Album {
-  id           String     @id @default(uuid())
+  id           String     @id @db.VarChar(255) @default(uuid())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  userId       String     @db.VarChar(255)
   name         String     @db.VarChar(255)
   summary      String?
   sortOrder    Int
-  userId       String     @db.VarChar(255)
-  photos       Photo[]    @relation(name: "album")
-  user         User       @relation(name: "user", fields: [userId], references: [id])  
+  photos       Photo[]    @relation(name: "album_photos")  
+  user         User       @relation(name: "user_albums", fields: [userId], references: [id])  
 }
 
 model Photo {
   id           String     @id @default(uuid())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  albumId      String     @db.VarChar(255)
+  userId       String     @db.VarChar(255)
   name         String     @db.VarChar(255)
+  storagePath  String     @db.VarChar(255)
   summary      String?
   sortOrder    Int
-  albumId      Int
-  userId       String     @db.VarChar(255)
-  album        Album      @relation(name: "album", fields: [albumId], references: [id])
-  user         User       @relation(name: "user", fields: [userId], references: [id])  
+  album        Album      @relation(name: "album_photos", fields: [albumId], references: [id])    
+  user         User       @relation(name: "user_photos", fields: [userId], references: [id])  
 }
