@@ -2,7 +2,7 @@
   "name": "shashin-api",
   "version": "1.0.0",
   "description": "simple api for managing photos in albums",
-  "main": "src/index.ts",
+  "main": "src/app.ts",
   "scripts": {
     "serve": "//code for serving goes here."
   },
