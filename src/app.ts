@@ -19,6 +19,10 @@ app.post('/user', async (request: Request, response: Response, next: NextFunctio
   await UserPost(request, response, next);
 });
 
+app.put('/user', async (request: Request, response: Response, next: NextFunction) => {
+  await UserPut(request, response, next);
+});
+
 
 app.listen(port, () => {
   console.log(`Shashin API is now running on ${port}.`);

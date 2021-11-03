@@ -37,24 +37,29 @@ export const UserPost = async (request: Request, response: Response, next: NextF
   const data = request.body;
 
   const user = await prisma.user.create({
-    data: {
-      remoteUserId: data.data.attributes.remoteUserId
-    }
+    data: data.data.attributes
   });
 
   let result: any = (!user) ? {} : user;
   // 403 resource exists for now on error, we'll correct later.
   let responseCode: number = (!user) ? 403 : 201;
-
-
-  
   response.status(responseCode).json(result);
-
-
 }
 
 export const UserPut = async (request: Request, response: Response, next: NextFunction) => {
-  const client = generateDbClient();
+  const prisma = generateDbClient();
+  const data = request.body;
 
+  const user = await prisma.user.update({
+    where: {
+      id: data.data.id,
+    },
+    data: data.data.attributes,
+  });
+
+  let result: any = (!user) ? {} : user;
+  // 403 resource exists for now on error, we'll correct later.
+  let responseCode: number = (!user) ? 403 : 201;
+  response.status(responseCode).json(result);
   
 }
