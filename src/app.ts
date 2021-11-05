@@ -72,6 +72,10 @@ app.put('/photo', async (request: Request, response: Response, next: NextFunctio
   await PhotoPut(request, response, next);
 });
 
+app.get('/', (request: Request, response: Response, next: NextFunction) => {
+  response.status(200).json({status: 200, message: 'The server is running'});
+});
+
 
 app.listen(port, () => {
   console.log(`Shashin API is now running on ${port}.`);
