@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { throws } from 'assert';
 
 export default class DbController {
   client: PrismaClient;
@@ -10,18 +9,13 @@ export default class DbController {
   }
 
   getEntity(entityName: string) {
-    if (!(entityName in this.entities)) {
-      throw Error("Unknown entity type: " + entityName);
-    }
     return this.client[entityName];
   }
 
   async create(entity: string, data: any) {
-
-    return await this.getEntity(entity).create({
+   return await this.getEntity(entity).create({
       data: data
     });
-
   }
 
   async update(entity: string, id: string, data: {}) {
@@ -48,11 +42,16 @@ export default class DbController {
   }
 
   async getById(entity: string, id: string) {
-    return await this.getEntity(entity).findUnique({
-      where: {
-        id: id
-      },
-    });    
+    try {
+      return await this.getEntity(entity).findUnique({
+        where: {
+          id: id
+        }
+      });
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   async delete(entity: string, id: string) {

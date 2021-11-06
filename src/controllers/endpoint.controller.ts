@@ -24,6 +24,10 @@ export const endpointUpdate = (entityType: string, db: DbController) => {
 export const endpointGetUnique = (entityType: string, db: DbController) => {
 
   return async (request: Request, response: Response, next: NextFunction) => {
+    console.log('getting unique');
+    const entity = await db.getById(entityType, request.params.id);
+    console.log(entity);
+    response.status(200).json(entity);
   }
 
 }
@@ -31,6 +35,8 @@ export const endpointGetUnique = (entityType: string, db: DbController) => {
 export const endpointGeAllByQuery = (entityType: string, db: DbController) => {
 
   return async (request: Request, response: Response, next: NextFunction) => {
+
+    response.status(200).json({});
   }
 
 }
