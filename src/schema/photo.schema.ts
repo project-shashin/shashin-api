@@ -44,7 +44,7 @@ export const dtoRequestPhotoPost = {
             storagePath: { type: "integer" },
             sortOrder: { type: "string" }
           },
-          required: ['createdAt','modifiedAt','userId','albumeId','storagePath']
+          required: ['userId','albumeId','storagePath']
         }      },
       required: ['type']
     }   
@@ -63,9 +63,14 @@ export const dtoRequestPhotoPut = {
         attributes: {
           type: "object",
           properties: {
-            remotePhotoId: { type: "string" }
+            userId: { type: "string" },
+            albumId: { type: "string" },
+            name: { type: "string" },
+            summary: { type: "string" },
+            storagePath: { type: "integer" },
+            sortOrder: { type: "string" }
           },
-          required: ['remotePhotoId']
+          required: ['userId','albumeId','name','summary','storagePath']
         }
       },
       required: ['type','id']

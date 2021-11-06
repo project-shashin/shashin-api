@@ -14,7 +14,7 @@ export const dtoAlbum = {
             userId: { type: "string" },
             name: { type: "string" },
             summary: { type: "string" },
-            sortOrder: { type: "string" }
+            sortOrder: { type: "number" }
           },
           required: ['createdAt','modifiedAt','userId','name','summary','sortOrder']
         }
@@ -35,9 +35,12 @@ export const dtoRequestAlbumPost = {
         attributes: {
           type: "object",
           properties: {
-            remoteAlbumId: { type: "string" }
+            userId: { type: "string" },
+            name: { type: "string" },
+            summary: { type: "string" },
+            sortOrder: { type: "number" }
           },
-          required: ['remoteAlbumId']
+          required: ['userId','name']
         }
       },
       required: ['type']
@@ -57,9 +60,34 @@ export const dtoRequestAlbumPut = {
         attributes: {
           type: "object",
           properties: {
-            remoteAlbumId: { type: "string" }
+            name: { type: "string" },
+            summary: { type: "string" },
+            sortOrder: { type: "number" }
           },
-          required: ['remoteAlbumId']
+          required: ['name','summary','sortOrder']
+        }
+      },
+      required: ['type','id']
+    }   
+  },
+  required: ['data']
+};
+
+export const dtoRequestAlbumPatch = {
+  type: "object",
+  properties: {
+    data:  { 
+      type: "object",
+      properties: {
+        type:  { type: "string" },
+        id:  { type: "string" },
+        attributes: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            summary: { type: "string" },
+            sortOrder: { type: "number" }
+          }
         }
       },
       required: ['type','id']
@@ -67,6 +95,3 @@ export const dtoRequestAlbumPut = {
   },
   required: ['data']
 }
-
-export const dtoRequestAlbumPatch = dtoRequestAlbumPut;
-
