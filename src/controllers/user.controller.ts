@@ -1,5 +1,9 @@
-import express, { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client'
+import { prismaErrorHandler } from '../handlers/error.handler';
+import { generateResponseObject } from '../handlers/generate-response-object.handler'
+
+
 
 const generateDbClient = () => {
   return new PrismaClient();
@@ -36,30 +40,38 @@ export const UserPost = async (request: Request, response: Response, next: NextF
   const prisma = generateDbClient();
   const data = request.body;
 
-  const user = await prisma.user.create({
-    data: data.data.attributes
-  });
+  try {
+    // Create the user.
+    const user = await prisma.user.create({
+      data: data.data.attributes
+    });
 
-  let result: any = (!user) ? {} : user;
-  // 403 resource exists for now on error, we'll correct later.
-  let responseCode: number = (!user) ? 403 : 201;
-  response.status(responseCode).json(result);
+    response.status(200).json(generateResponseObject('dtoUser', user.id, {}));
+    // response.status(200).json(generateResponseObject('dtoUser', user.id, {...user}));
+
+  }
+  catch (error) {
+
+    prismaErrorHandler(response, error);
+
+  }
 }
 
 export const UserPut = async (request: Request, response: Response, next: NextFunction) => {
   const prisma = generateDbClient();
   const data = request.body;
 
-  const user = await prisma.user.update({
-    where: {
-      id: data.data.id,
-    },
-    data: data.data.attributes,
-  });
+  // const user = await prisma.user.update({
+  //   where: {
+  //     id: data.data.id,
+  //   },
+  //   data: data.data.attributes,
+  // });
 
-  let result: any = (!user) ? {} : user;
-  // 403 resource exists for now on error, we'll correct later.
-  let responseCode: number = (!user) ? 403 : 201;
-  response.status(responseCode).json(result);
+  // let result: any = (!user) ? {} : user;
+  // // 403 resource exists for now on error, we'll correct later.
+  // let responseCode: number = (!user) ? 403 : 201;
+  // response.status(responseCode).json(result);
+  // response.status(200).json({});
   
 }

@@ -1,11 +1,18 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { UserGet, UserGetOne, UserPost, UserPut, UserDelete } from './controllers/user.controller';
-import { AlbumGet, AlbumGetOne, AlbumPost, AlbumPut, AlbumDelete } from './controllers/album.controller';
+import { AlbumGetAll, AlbumGetOne, AlbumCreate, AlbumUpdate, AlbumDelete } from './controllers/album.controller';
 import { PhotoGet, PhotoGetOne, PhotoPost, PhotoPut, PhotoDelete } from './controllers/photo.controller';
+import { requestSchemaValidator } from './middleware/schema-validator.middleware';
+import { dtoRequestUserPost } from './schema/user.schema';
+import { responseBodyGenerator } from './middleware/response-body.middleware';
+import { dtoRequestAlbumPatch, dtoRequestAlbumPost, dtoRequestAlbumPut } from './schema/album.schema';
 
+const port = 3000;
 const app = express();
 app.use(express.json());
-const port = 3000;
+
+// Give us a means to get response body
+app.use(responseBodyGenerator);
 
 // User Routes
 app.delete('/user/:id', async (request: Request, response: Response, next: NextFunction) => {
@@ -20,14 +27,14 @@ app.get('/user', async (request: Request, response: Response, next: NextFunction
   await UserGet(request, response, next);
 });
 
-app.post('/user', async (request: Request, response: Response, next: NextFunction) => {
+app.post('/user', requestSchemaValidator(dtoRequestUserPost), async (request: Request, response: Response, next: NextFunction) => {
   await UserPost(request, response, next);
+  next();
 });
 
 app.put('/user', async (request: Request, response: Response, next: NextFunction) => {
   await UserPut(request, response, next);
 });
-
 
 // Album Routes
 app.delete('/album/:id', async (request: Request, response: Response, next: NextFunction) => {
@@ -39,17 +46,20 @@ app.get('/album/:id', async (request: Request, response: Response, next: NextFun
 });
 
 app.get('/album', async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumGet(request, response, next);
+  await AlbumGetAll(request, response, next);
 });
 
-app.post('/album', async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumPost(request, response, next);
+app.post('/album', requestSchemaValidator(dtoRequestAlbumPost), async (request: Request, response: Response, next: NextFunction) => {
+  await AlbumCreate(request, response, next);
 });
 
-app.put('/album', async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumPut(request, response, next);
+app.put('/album', requestSchemaValidator(dtoRequestAlbumPut), async (request: Request, response: Response, next: NextFunction) => {
+  await AlbumUpdate(request, response, next);
 });
 
+app.patch('/album', requestSchemaValidator(dtoRequestAlbumPatch), async (request: Request, response: Response, next: NextFunction) => {
+  await AlbumUpdate(request, response, next);
+});
 
 // Photo Routes
 app.delete('/photo/:id', async (request: Request, response: Response, next: NextFunction) => {
