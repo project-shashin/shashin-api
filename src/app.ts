@@ -1,11 +1,13 @@
-import express, { Request, Response, NextFunction } from 'express';
-import { UserGet, UserGetOne, UserPost, UserPut, UserDelete } from './controllers/user.controller';
-import { AlbumGetAll, AlbumGetOne, AlbumCreate, AlbumUpdate, AlbumDelete } from './controllers/album.controller';
-import { PhotoGet, PhotoGetOne, PhotoPost, PhotoPut, PhotoDelete } from './controllers/photo.controller';
+import express from 'express';
 import { requestSchemaValidator } from './middleware/schema-validator.middleware';
-import { dtoRequestUserPost } from './schema/user.schema';
+import { dtoRequestUserPatch, dtoRequestUserPost, dtoRequestUserPut } from './schema/user.schema';
 import { responseBodyGenerator } from './middleware/response-body.middleware';
 import { dtoRequestAlbumPatch, dtoRequestAlbumPost, dtoRequestAlbumPut } from './schema/album.schema';
+import DbController from './controllers/db.controller';
+import { endpointCreate, endpointDelete, endpointGeAllByQuery, endpointGetUnique, endpointUpdate } from './controllers/endpoint.controller';
+import { dtoRequestPhotoPatch, dtoRequestPhotoPost, dtoRequestPhotoPut } from './schema/photo.schema';
+import { dtoParams } from './schema/common.schema';
+import { paramsValidator } from './middleware/params-validator.middleware';
 
 const port = 3000;
 const app = express();
@@ -13,75 +15,50 @@ app.use(express.json());
 
 // Give us a means to get response body
 app.use(responseBodyGenerator);
+const db = new DbController();
 
 // User Routes
-app.delete('/user/:id', async (request: Request, response: Response, next: NextFunction) => {
-  await UserDelete(request, response, next);
-});
+app.post('/user', requestSchemaValidator(dtoRequestUserPost), endpointCreate('user', db));
 
-app.get('/user/:id', async (request: Request, response: Response, next: NextFunction) => {
-  await UserGetOne(request, response, next);
-});
+app.get('/user/:id', paramsValidator(dtoParams), endpointGetUnique('user', db));
 
-app.get('/user', async (request: Request, response: Response, next: NextFunction) => {
-  await UserGet(request, response, next);
-});
+app.get('/user', endpointGeAllByQuery('user', db));
 
-app.post('/user', requestSchemaValidator(dtoRequestUserPost), async (request: Request, response: Response, next: NextFunction) => {
-  await UserPost(request, response, next);
-  next();
-});
+app.patch('/user', requestSchemaValidator(dtoRequestUserPatch), endpointUpdate('user', db));
 
-app.put('/user', async (request: Request, response: Response, next: NextFunction) => {
-  await UserPut(request, response, next);
-});
+app.post('/user', requestSchemaValidator(dtoRequestUserPost), endpointUpdate('user', db));
 
-// Album Routes
-app.delete('/album/:id', async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumDelete(request, response, next);
-});
+app.put('/user', requestSchemaValidator(dtoRequestUserPut), endpointUpdate('user', db));
 
-app.get('/album/:id', async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumGetOne(request, response, next);
-});
+app.delete('/user/:id', paramsValidator(dtoParams), endpointDelete('user', db));
 
-app.get('/album', async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumGetAll(request, response, next);
-});
 
-app.post('/album', requestSchemaValidator(dtoRequestAlbumPost), async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumCreate(request, response, next);
-});
+// Album
+app.post('/album', requestSchemaValidator(dtoRequestAlbumPost), endpointCreate('album', db));
 
-app.put('/album', requestSchemaValidator(dtoRequestAlbumPut), async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumUpdate(request, response, next);
-});
+app.get('/album/:id', paramsValidator(dtoParams), endpointGetUnique('album', db));
 
-app.patch('/album', requestSchemaValidator(dtoRequestAlbumPatch), async (request: Request, response: Response, next: NextFunction) => {
-  await AlbumUpdate(request, response, next);
-});
+app.get('/album', endpointGeAllByQuery('album', db));
 
-// Photo Routes
-app.delete('/photo/:id', async (request: Request, response: Response, next: NextFunction) => {
-  await PhotoDelete(request, response, next);
-});
+app.patch('/albumn', requestSchemaValidator(dtoRequestAlbumPatch), endpointUpdate('album', db));
 
-app.get('/photo/:id', async (request: Request, response: Response, next: NextFunction) => {
-  await PhotoGetOne(request, response, next);
-});
+app.put('/album', requestSchemaValidator(dtoRequestAlbumPut), endpointUpdate('album', db));
 
-app.get('/photo', async (request: Request, response: Response, next: NextFunction) => {
-  await PhotoGet(request, response, next);
-});
+app.delete('/album/:id', paramsValidator(dtoParams), endpointDelete('album', db));
 
-app.post('/photo', async (request: Request, response: Response, next: NextFunction) => {
-  await PhotoPost(request, response, next);
-});
 
-app.put('/photo', async (request: Request, response: Response, next: NextFunction) => {
-  await PhotoPut(request, response, next);
-});
+// Photo
+app.post('/photo', requestSchemaValidator(dtoRequestPhotoPost), endpointCreate('photo', db));
 
+app.get('/photo/:id', paramsValidator(dtoParams), endpointGetUnique('photo', db));
+
+app.get('/photo', endpointGeAllByQuery('photo', db));
+
+app.patch('/photo', requestSchemaValidator(dtoRequestPhotoPatch), endpointUpdate('photo', db));
+
+app.put('/album', requestSchemaValidator(dtoRequestPhotoPut), endpointUpdate('photo', db));
+
+app.delete('/photo/:id', paramsValidator(dtoParams), endpointDelete('photo', db));
 
 app.listen(port, () => {
   console.log(`Shashin API is now running on ${port}.`);
