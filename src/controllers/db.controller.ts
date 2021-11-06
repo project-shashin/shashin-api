@@ -1,33 +1,31 @@
 import { PrismaClient } from '@prisma/client'
+import { throws } from 'assert';
 
 export default class DbController {
   client: PrismaClient;
   entities: {};
-  entity: any | null = null;
 
-  constructor(entityName: string){
+  constructor(){
     this.client = new PrismaClient();
-    this.entities = {
-      album: this.client.album,
-      photo: this.client.photo,
-      user: this.client.user,
-    }
+  }
 
+  getEntity(entityName: string) {
     if (!(entityName in this.entities)) {
       throw Error("Unknown entity type: " + entityName);
     }
-
-    this.entity = this.entities[entityName];
+    return this.client[entityName];
   }
 
-  async create(data: {}) {
-    return await this.entity.create({
+  async create(entity: string, data: any) {
+
+    return await this.getEntity(entity).create({
       data: data
     });
+
   }
 
-  async update(id: string, data: {}) {
-    return await this.entity.update({
+  async update(entity: string, id: string, data: {}) {
+    return await this.getEntity(entity).update({
       where: {
         id: id
       },
@@ -35,30 +33,30 @@ export default class DbController {
     });
   }
 
-  async getByQuery(queryParams: {}) {
+  async getByQuery(entity: string, queryParams: {}) {
 
     if(Object.keys(queryParams).length === 0) {
       const query = {
         where: queryParams
       }; 
   
-      return await this.entity.findMany(query);
+      return await this.getEntity(entity).findMany(query);
     }
     else {
-      return await this.entity.findMany();
+      return await this.getEntity(entity).findMany();
     }
   }
 
-  async getById(id: string) {
-    return await this.entity.findUnique({
+  async getById(entity: string, id: string) {
+    return await this.getEntity(entity).findUnique({
       where: {
         id: id
       },
     });    
   }
 
-  async delete(id: string) {
-    return await this.entity.delete({
+  async delete(entity: string, id: string) {
+    return await this.getEntity(entity).delete({
       where: {
         id: id
       },
