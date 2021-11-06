@@ -27,14 +27,11 @@ export default class DbController {
     });
   }
 
-  async getByQuery(entity: string, queryParams: {}) {
-
-    if(Object.keys(queryParams).length === 0) {
-      const query = {
+  async getByQuery(entity: string, queryParams?: {}) {
+    if(!queryParams) {
+      return await this.getEntity(entity).findMany({
         where: queryParams
-      }; 
-  
-      return await this.getEntity(entity).findMany(query);
+      });
     }
     else {
       return await this.getEntity(entity).findMany();

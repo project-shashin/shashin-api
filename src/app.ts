@@ -4,7 +4,7 @@ import { dtoRequestUserPatch, dtoRequestUserPost, dtoRequestUserPut } from './sc
 import { responseBodyGenerator } from './middleware/response-body.middleware';
 import { dtoRequestAlbumPatch, dtoRequestAlbumPost, dtoRequestAlbumPut } from './schema/album.schema';
 import DbController from './controllers/db.controller';
-import { endpointCreate, endpointDelete, endpointGetUnique, endpointUpdate } from './controllers/endpoint.controller';
+import { endpointCreate, endpointDelete, endpointGeAllByQuery, endpointGetUnique, endpointUpdate } from './controllers/endpoint.controller';
 import { dtoRequestPhotoPatch, dtoRequestPhotoPost, dtoRequestPhotoPut } from './schema/photo.schema';
 import { dtoParams } from './schema/common.schema';
 import { paramsValidator } from './middleware/params-validator.middleware';
@@ -22,7 +22,7 @@ app.post('/user', requestSchemaValidator(dtoRequestUserPost), endpointCreate('us
 
 app.get('/user/:id', paramsValidator(dtoParams), endpointGetUnique('user', db));
 
-app.get('/user', endpointGetUnique('user', db));
+app.get('/user', endpointGeAllByQuery('user', db));
 
 app.patch('/user', requestSchemaValidator(dtoRequestUserPatch), endpointUpdate('user', db));
 
@@ -38,7 +38,7 @@ app.post('/album', requestSchemaValidator(dtoRequestAlbumPost), endpointCreate('
 
 app.get('/album/:id', paramsValidator(dtoParams), endpointGetUnique('album', db));
 
-app.get('/album', endpointGetUnique('album', db));
+app.get('/album', endpointGeAllByQuery('album', db));
 
 app.patch('/albumn', requestSchemaValidator(dtoRequestAlbumPatch), endpointUpdate('album', db));
 
@@ -52,7 +52,7 @@ app.post('/photo', requestSchemaValidator(dtoRequestPhotoPost), endpointCreate('
 
 app.get('/photo/:id', paramsValidator(dtoParams), endpointGetUnique('photo', db));
 
-app.get('/photo', endpointGetUnique('photo', db));
+app.get('/photo', endpointGeAllByQuery('photo', db));
 
 app.patch('/photo', requestSchemaValidator(dtoRequestPhotoPatch), endpointUpdate('photo', db));
 
