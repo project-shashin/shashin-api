@@ -11,14 +11,14 @@ export const dtoPhoto = {
           properties: {
             createdAt: { type: "string" },
             modifiedAt: { type: "string" },
-            userId: { type: "string" },
             albumId: { type: "string" },
+            userId: { type: "string" },
             name: { type: "string" },
             summary: { type: "string" },
-            storagePath: { type: "integer" },
-            sortOrder: { type: "string" }
+            storagePath: { type: "string" },
+            sortOrder: { type: "number" }
           },
-          required: ['createdAt','modifiedAt','userId','albumeId','name','summary','storagePath','sortOrder']
+          required: ['createdAt','modifiedAt','albumId','userId','name','summary','storagePath','sortOrder']
         }
       },
       required: ['type','id']
@@ -41,11 +41,12 @@ export const dtoRequestPhotoPost = {
             albumId: { type: "string" },
             name: { type: "string" },
             summary: { type: "string" },
-            storagePath: { type: "integer" },
-            sortOrder: { type: "string" }
+            sortOrder: { type: "number" },
+            storagePath: { type: "string" }
           },
-          required: ['userId','albumeId','storagePath']
-        }      },
+          required: ['userId','albumId','name','storagePath']
+        }
+      },
       required: ['type']
     }   
   },
@@ -63,14 +64,38 @@ export const dtoRequestPhotoPut = {
         attributes: {
           type: "object",
           properties: {
-            userId: { type: "string" },
             albumId: { type: "string" },
             name: { type: "string" },
             summary: { type: "string" },
-            storagePath: { type: "integer" },
-            sortOrder: { type: "string" }
+            sortOrder: { type: "number" },
+            storagePath: { type: "string" }
           },
-          required: ['userId','albumeId','name','summary','storagePath']
+          required: ['albumId','name','summary','sortOrder','storagePath']
+        }
+      },
+      required: ['type','id']
+    }   
+  },
+  required: ['data']
+};
+
+export const dtoRequestPhotoPatch = {
+  type: "object",
+  properties: {
+    data:  { 
+      type: "object",
+      properties: {
+        type:  { type: "string" },
+        id:  { type: "string" },
+        attributes: {
+          type: "object",
+          properties: {
+            albumId: { type: "string" },
+            name: { type: "string" },
+            summary: { type: "string" },
+            sortOrder: { type: "number" },
+            storagePath: { type: "string" }
+          }
         }
       },
       required: ['type','id']
@@ -78,6 +103,3 @@ export const dtoRequestPhotoPut = {
   },
   required: ['data']
 }
-
-export const dtoRequestPhotoPatch = dtoRequestPhotoPut;
-
