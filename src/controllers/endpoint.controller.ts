@@ -1,31 +1,45 @@
 import { Request, Response, NextFunction } from 'express';
-import DbController from '../controllers/db.controller';
-
+import GeneralExceptionEncapsulation from '../handlers/error.handler';
+import DbController from './db.controller';
 
 export const endpointCreate = (entityType: string, db: DbController) => {
 
   return async (request: Request, response: Response, next: NextFunction) => {
-    const data = request.body.data;
-    const entity = await db.create(entityType, data.attributes);
-    response.status(200).json({});
+    try {
+      const data = request.body.data;
+      const entity = await db.create(entityType, data.attributes);
+      response.status(200).json(entity);
+    }
+    catch(error: any) {
+      response.status(error.responseCode).json({error: error.message});
+    }
   }
 }
 
 export const endpointUpdate = (entityType: string, db: DbController) => {
 
   return async (request: Request, response: Response, next: NextFunction) => {
-    const data = request.body.data;
-    const entity = await db.update(entityType, data.id, data.attributes);
-    response.status(200).json({});
+    try{
+      const data = request.body.data;
+      const entity = await db.update(entityType, data.id, data.attributes);
+      response.status(200).json(entity);
+    }
+    catch(error: any) {
+      response.status(error.responseCode).json({error: error.message});
+    }
   }
-
 }
 
 export const endpointGetUnique = (entityType: string, db: DbController) => {
 
   return async (request: Request, response: Response, next: NextFunction) => {
-    const entity = await db.getById(entityType, request.params.id);
-    response.status(200).json(entity);
+    try{
+      const entity = await db.getById(entityType, request.params.id);
+      response.status(200).json(entity);
+    }
+    catch(error: any) {
+      response.status(error.responseCode).json({error: error.message});
+    }
   }
 
 }
@@ -33,8 +47,13 @@ export const endpointGetUnique = (entityType: string, db: DbController) => {
 export const endpointGeAllByQuery = (entityType: string, db: DbController) => {
 
   return async (request: Request, response: Response, next: NextFunction) => {
-    const entities = await db.getByQuery(entityType);
-    response.status(200).json(entities);
+    try {
+      const entities = await db.getByQuery(entityType);
+      response.status(200).json(entities);
+    }
+    catch(error: any) {
+      response.status(error.responseCode).json({error: error.message});
+    }
   }
 
 }
@@ -42,8 +61,13 @@ export const endpointGeAllByQuery = (entityType: string, db: DbController) => {
 export const endpointDelete = (entityType: string, db: DbController) => {
 
   return async (request: Request, response: Response, next: NextFunction) => {
-    const entity = await db.delete(entityType, request.params.id);
-    response.status(200).json({});
+    try {
+      const entity = await db.delete(entityType, request.params.id);
+      response.status(200).json({});
+    }
+    catch(error: any) {
+      response.status(error.responseCode).json({error: error.message});
+    }
   }
 
 }
