@@ -10,19 +10,18 @@ First clone this repository into your local system.
 
 `git clone git@github.com:project-shashin/shashin-api.git`
 
-Before you install the node modules you should update the 
+Before you install the node modules you should copy `env.example` to `.env` and update your database connection string.
 
-Once it is cloned you will need to install the required modules using `npm install` from the root directory of the repository.
+Once this is done you will need to install the required modules using `npm install` from the root directory of the repository.  During the process Prisma will build the prisma client, which is why you should update the `.env` file ahead of time.
 
-
-
+To run the project `npm run serve` will start the express engine on port 3000
 
 ##Model and Migrations
-After model changes you will need to run the prisma migration tool.  Make sure to give each migration a unique short description to help identify changes.
+If you change, the model once your change is complete, you will need to run the prisma migration tool.  Make sure to give each migration a unique short description to help identify changes.
 
 `npx prisma migrate dev --name 'migration-short-description'`
 
 ##Prisma Client
-WHen you change the model you will also have to rebuild the client located in node_modules.
+When you change the model or database settings you will also have to rebuild the client located in node_modules.
 
 `prisma generate`
