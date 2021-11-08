@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import GeneralExceptionEncapsulation from '../handlers/error.handler';
+import { errorHandler } from '../handlers/error.handler';
 import DbController from './db.controller';
 
 export const endpointCreate = (entityType: string, db: DbController) => {
@@ -11,7 +11,7 @@ export const endpointCreate = (entityType: string, db: DbController) => {
       response.status(200).json(entity);
     }
     catch(error: any) {
-      response.status(error.responseCode).json({error: error.message});
+      errorHandler(response, error.responseCode, [error.message]);
     }
   }
 }
@@ -25,7 +25,7 @@ export const endpointUpdate = (entityType: string, db: DbController) => {
       response.status(200).json(entity);
     }
     catch(error: any) {
-      response.status(error.responseCode).json({error: error.message});
+      errorHandler(response, error.responseCode, [error.message]);
     }
   }
 }
@@ -38,7 +38,7 @@ export const endpointGetUnique = (entityType: string, db: DbController) => {
       response.status(200).json(entity);
     }
     catch(error: any) {
-      response.status(error.responseCode).json({error: error.message});
+      errorHandler(response, error.responseCode, [error.message]);
     }
   }
 
@@ -52,7 +52,7 @@ export const endpointGeAllByQuery = (entityType: string, db: DbController) => {
       response.status(200).json(entities);
     }
     catch(error: any) {
-      response.status(error.responseCode).json({error: error.message});
+      errorHandler(response, error.responseCode, [error.message]);
     }
   }
 
@@ -66,7 +66,7 @@ export const endpointDelete = (entityType: string, db: DbController) => {
       response.status(200).json({});
     }
     catch(error: any) {
-      response.status(error.responseCode).json({error: error.message});
+      errorHandler(response, error.responseCode, [error.message]);
     }
   }
 

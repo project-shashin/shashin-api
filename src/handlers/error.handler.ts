@@ -1,10 +1,17 @@
-import { response, Response } from 'express';
+import { Response } from 'express';
 
-// export function prismaErrorHandler(response: Response, error: any) {
-//   errorHandler(response, 500, ["A database error occured"]);
-// }
+export const processValidationErrors = (errors: any) => {
+  
+  let errorMap: string[];
 
-export function errorHandler(response: Response, code: number, errors: any) {
+  errors.array.forEach(error => {
+    errorMap.push(error.message)
+  });
+  
+  return errorMap;
+}
+
+export const errorHandler = (response: Response, code: number, errors: any[]) => {
   response.status(code).json({error: 'error', errors: errors})
 }
 

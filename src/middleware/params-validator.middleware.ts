@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { NextFunction, Request, Response } from "express";
 import Ajv from "ajv"
-import { errorHandler } from "../handlers/error.handler";
+import { errorHandler, processValidationErrors } from "../handlers/error.handler";
 
 export const paramsValidator = function(schema: any): RequestHandler {
   return (request: Request, response: Response, next: NextFunction) => {
@@ -10,7 +10,7 @@ export const paramsValidator = function(schema: any): RequestHandler {
 
     // Validate 
     if (!validate(request.params)) {
-      errorHandler(response, 500, validate.errors);
+      errorHandler(response, 500, processValidationErrors(validate.errors));
     }
     else {
       next();
