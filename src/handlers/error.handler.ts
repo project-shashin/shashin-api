@@ -12,6 +12,7 @@ export const processValidationErrors = (errors: any) => {
 }
 
 export const errorHandler = (response: Response, code: number, errors: any[]) => {
+  console.log(errors);
   response.status(code).json({error: 'error', errors: errors})
 }
 
