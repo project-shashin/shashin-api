@@ -2,9 +2,8 @@ import { Response } from 'express';
 
 export const processValidationErrors = (errors: any) => {
   
-  let errorMap: string[];
-
-  errors.array.forEach(error => {
+  let errorMap: string[] = [];
+  errors.forEach(error => {
     errorMap.push(error.message)
   });
   
@@ -12,7 +11,6 @@ export const processValidationErrors = (errors: any) => {
 }
 
 export const errorHandler = (response: Response, code: number, errors: any[]) => {
-  console.log(errors);
   response.status(code).json({error: 'error', errors: errors})
 }
 

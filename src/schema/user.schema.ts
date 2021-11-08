@@ -13,7 +13,8 @@ export const dtoUser = {
             modifiedAt: { type: "string" },
             remoteUserId: { type: "string" }
           },
-          required: ['createdAt','modifiedAt','remoteUserId']
+          required: ['createdAt','modifiedAt','remoteUserId'],
+          additionalProperties: false          
         }
       },
       required: ['type','id']
@@ -34,7 +35,8 @@ export const dtoRequestUserPost = {
           properties: {
             remoteUserId: { type: "string" }
           },
-          required: ['remoteUserId']
+          required: ['remoteUserId'],
+          additionalProperties: false          
         }
       },
       required: ['type']
@@ -56,7 +58,8 @@ export const dtoRequestUserPut = {
           properties: {
             remoteUserId: { type: "string" }
           },
-          required: ['remoteUserId']
+          required: ['remoteUserId'],
+          additionalProperties: false          
         }
       },
       required: ['type','id']
