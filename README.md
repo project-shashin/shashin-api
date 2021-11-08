@@ -25,3 +25,7 @@ If you change, the model once your change is complete, you will need to run the 
 When you change the model or database settings you will also have to rebuild the client located in node_modules.
 
 `prisma generate`
+
+## Bug
+
+This code like all code is sure to have some bugs.  If you do not give me specific means to reproduce the bug you are encountering I will ignore and close the bug report.
