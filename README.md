@@ -26,6 +26,6 @@ When you change the model or database settings you will also have to rebuild the
 
 `prisma generate`
 
-## Bug
+## Bug Reporting
 
 This code like all code is sure to have some bugs.  If you do not give me specific means to reproduce the bug you are encountering I will ignore and close the bug report.
