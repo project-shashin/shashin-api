@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 export const responseBodyGenerator = function(request: Request, response: Response, next: NextFunction) {
   const originalJsonFunction = response.json;
