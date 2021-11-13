@@ -1,5 +1,4 @@
-import { RequestHandler } from "express";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, RequestHandler } from "express";
 import Ajv from "ajv"
 import { errorHandler, processValidationErrors } from "../handlers/error.handler";
 

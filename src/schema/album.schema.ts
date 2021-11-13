@@ -16,7 +16,8 @@ export const dtoAlbum = {
             summary: { type: "string" },
             sortOrder: { type: "number" }
           },
-          required: ['createdAt','modifiedAt','userId','name','summary','sortOrder']
+          required: ['createdAt','modifiedAt','userId','name','summary','sortOrder'],
+          additionalProperties: false          
         }
       },
       required: ['type','id']
@@ -40,7 +41,8 @@ export const dtoRequestAlbumPost = {
             summary: { type: "string" },
             sortOrder: { type: "number" }
           },
-          required: ['userId','name']
+          required: ['userId','name'],
+          additionalProperties: false          
         }
       },
       required: ['type']
@@ -64,7 +66,8 @@ export const dtoRequestAlbumPut = {
             summary: { type: "string" },
             sortOrder: { type: "number" }
           },
-          required: ['name','summary','sortOrder']
+          required: ['name','summary','sortOrder'],
+          additionalProperties: false          
         }
       },
       required: ['type','id']
@@ -87,10 +90,12 @@ export const dtoRequestAlbumPatch = {
             name: { type: "string" },
             summary: { type: "string" },
             sortOrder: { type: "number" }
-          }
+          },
+          additionalProperties: false          
         }
       },
-      required: ['type','id']
+      required: ['type','id'],
+      
     }   
   },
   required: ['data']
