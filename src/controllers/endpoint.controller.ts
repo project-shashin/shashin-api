@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { errorHandler } from '../handlers/error.handler';
-import DbController from './db.controller';
+import DbController from './DbController';
 
 export const endpointCreate = (entityType: string, db: DbController) => {
 

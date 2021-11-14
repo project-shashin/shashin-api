@@ -3,7 +3,7 @@ import { requestSchemaValidator } from './middleware/schema-validator.middleware
 import { dtoRequestUserPatch, dtoRequestUserPost, dtoRequestUserPut } from './schema/user.schema';
 import { responseBodyGenerator } from './middleware/response-body.middleware';
 import { dtoRequestAlbumPatch, dtoRequestAlbumPost, dtoRequestAlbumPut } from './schema/album.schema';
-import DbController from './controllers/db.controller';
+import DbController from './controllers/DbController';
 import { endpointCreate, endpointDelete, endpointGeAllByQuery, endpointGetUnique, endpointUpdate } from './controllers/endpoint.controller';
 import { dtoRequestPhotoPatch, dtoRequestPhotoPost, dtoRequestPhotoPut } from './schema/photo.schema';
 import { dtoParams } from './schema/common.schema';
